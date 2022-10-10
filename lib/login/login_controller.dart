@@ -19,14 +19,14 @@ class LoginController extends GetxController {
     super.onReady();
     if (PrefController.instance.getLoggedUser() != null) {
       ctrlUserId.text = PrefController.instance.getLoggedUser()!.userId ?? '';
-      ctrlPwd.text = PrefController.instance.getLoggedUser()!.userPassword ?? '';
+      ctrlPwd.text =
+          PrefController.instance.getLoggedUser()!.userPassword ?? '';
       rememberPwd(true);
     }
   }
 
   String? validateUserId(String value) {
     if (GetUtils.isLengthLessThan(value, 4)) return 'Length must be of 4 chars';
-    if (!GetUtils.isEmail(value)) return 'Invalid email';
     return null;
   }
 
@@ -47,7 +47,8 @@ class LoginController extends GetxController {
       UserModel? user = await AuthController.instance
           .loginWithEmail(ctrlUserId.text, ctrlPwd.text, rememberPwd.value)
           .onError((error, stackTrace) {
-        ScreenUtil.showToast(error.toString(), error: true, title: 'Login Failed');
+        ScreenUtil.showToast(error.toString(),
+            error: true, title: 'Login Failed');
         return null;
       });
 
@@ -57,5 +58,10 @@ class LoginController extends GetxController {
     } finally {
       loading(false);
     }
+  }
+
+  void test(String userId, String pwd) {
+    ctrlPwd.text = pwd;
+    ctrlUserId.text = userId;
   }
 }

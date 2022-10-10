@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../models/user_model.dart';
+import '../providers/api.dart';
 import '../routes/app_routes.dart';
 import '../utils/screen_util.dart';
 import 'pref_controller.dart';
@@ -27,11 +28,12 @@ class AuthController extends GetxController {
   /// tidak mengatur reroute disini, hanya authentication secara online.
   ///
   /// login offline tidak diperlukan diatur di class ini karena sudah diatur di LoginController.
-  Future<UserModel?> loginWithEmail(String userId, String pwd, bool rememberMe) async {
-    var userModel = UserModel(userId: userId, userPassword: pwd);
-    userModel.rememberMe = rememberMe;
+  Future<UserModel?> loginWithEmail(
+      String userId, String pwd, bool rememberMe) async {
+    var userModel = await Api.instance.login(userId, pwd);
+    userModel?.rememberMe = rememberMe;
     // Optional inject password, because server might hide it
-    userModel.userPassword = pwd;
+    userModel?.userPassword = pwd;
     PrefController.instance.setLoggedUser(userModel);
     user.value = userModel;
     return userModel;
@@ -42,11 +44,21 @@ class AuthController extends GetxController {
     try {
       if (PrefController.instance.hasLoggedUser()) {
         var user = PrefController.instance.getLoggedUser();
-        if (user!.rememberMe != true) await PrefController.instance.cleanLoggedUserData();
+        if (user!.rememberMe != true) {
+          await PrefController.instance.cleanLoggedUserData();
+        }
       }
       user.value = null;
     } catch (e, s) {
       ScreenUtil.showError(e, stacktrace: s);
     }
+  }
+
+  Future<UserModel?> createUserWithEmailAndPassword(
+      String fullName, String userId, String password) async {
+    var newUsr = await Api.instance.signUp(fullName, userId, password);
+    PrefController.instance.setLoggedUser(newUsr);
+    user.value = newUsr;
+    return newUsr;
   }
 }
