@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 class ScreenUtil {
   static void showToast(String message, {bool error = false, String title = ''}) {
     debugPrint('Toast => $message');
-    Get.snackbar(error ? 'ERROR' : title, message,
+    Get.snackbar(title, message,
         snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.black.withOpacity(0.55),
-        colorText: Colors.white,
-        titleText: error ? const Icon(Icons.error_outline_rounded, color: Colors.white) : null);
+        backgroundColor: error
+            ? Colors.red.shade700.withOpacity(0.55)
+            : success
+                ? Colors.green.shade700.withOpacity(0.55)
+                : Colors.black.withOpacity(0.55),
+        colorText: Colors.white);
   }
 
   static void showError(Object? message, {StackTrace? stacktrace, String title = ''}) {
