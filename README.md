@@ -4,6 +4,10 @@ A new Flutter project.
 
 JUMPSTART from https://github.com/elkana/quickstart_getx
 
+```
+$ flutter create --org com.yourpackage -a java quickstart_getx
+```
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
