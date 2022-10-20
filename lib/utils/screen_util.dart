@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ScreenUtil {
-  static void showToast(String message, {bool error = false, String title = ''}) {
+  static void showToast(String message, {bool error = false, bool success = false, String title = ''}) {
     debugPrint('Toast => $message');
     Get.snackbar(title, message,
         snackPosition: SnackPosition.TOP,

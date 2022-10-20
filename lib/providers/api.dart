@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quickstart_getx_hive/models/user_model.dart';
 import 'package:quickstart_getx_hive/utils/commons.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../utils/net_util.dart';
 import '../utils/screen_util.dart';
@@ -16,7 +17,7 @@ class Api extends GetConnect {
   static Api instance = Get.find();
   static const timeoutSeconds = 10;
 
-  static var apiKey = 'DUMMYKEY123';
+  static var apiKey = 'Token ${dotenv.env['TOKEN']}';
   static var serverUrl = 'https://192.168.111.111:8090';
   static var uriLogin = '/v1/login';
 
@@ -41,10 +42,8 @@ class Api extends GetConnect {
       ..options.headers['ApiKey'] = apiKey;
 
     if (dio.httpClientAdapter is DefaultHttpClientAdapter) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (client) {
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) {
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+        client.badCertificateCallback = (X509Certificate cert, String host, int port) {
           /* see https://pub.dev/packages/dio  format of certificate must be PEM or PKCS12.
         if (cert.pem == PEM) {
           // Verify the certificate
@@ -75,8 +74,7 @@ class Api extends GetConnect {
     return dio;
   }
 
-  Future<Response> postUri(String uri, dynamic body,
-      {Map<String, dynamic>? query}) async {
+  Future<Response> postUri(String uri, dynamic body, {Map<String, dynamic>? query}) async {
     var resp = await super
         .post('$serverUrl$uri', body, query: query)
         .timeout(const Duration(seconds: timeoutSeconds))
@@ -112,8 +110,7 @@ class Api extends GetConnect {
 
   /// //////////////// DIO ////////////////////////
   ///
-  dynamic downloadPhoto(String uri, String fileName,
-      {bool useCache = false}) async {
+  dynamic downloadPhoto(String uri, String fileName, {bool useCache = false}) async {
     var dir = await getTemporaryDirectory();
     if (!kIsWeb && (useCache || await NetUtil.isNotConnected())) {
       File file = File('${dir.path}/$fileName');
@@ -127,8 +124,7 @@ class Api extends GetConnect {
 
     Uri? _uri = Uri.tryParse('$serverUrl$uri');
 
-    var resp = await dio.getUri<List<int>>(_uri!,
-        options: dioLib.Options(responseType: dioLib.ResponseType.bytes));
+    var resp = await dio.getUri<List<int>>(_uri!, options: dioLib.Options(responseType: dioLib.ResponseType.bytes));
 
     if (kIsWeb) {
       //
@@ -149,9 +145,7 @@ class Api extends GetConnect {
 
     var res = await dio
         .postUri<String>(uri!,
-            options: dioLib.Options(
-                method: 'POST', responseType: dioLib.ResponseType.json),
-            data: formData)
+            options: dioLib.Options(method: 'POST', responseType: dioLib.ResponseType.json), data: formData)
         .then((response) {
       // response = profile.jpg
       log('uploading response $response'); //foto_ldv_depan_rmh_0016074932_0006017179-001.jpg
@@ -164,10 +158,7 @@ class Api extends GetConnect {
   }
 
   Future<List<T>?> postList<T>(
-      String uri,
-      List<T> list,
-      Map<String, dynamic> Function(T) obj2Json,
-      T Function(dynamic) json2Obj) async {
+      String uri, List<T> list, Map<String, dynamic> Function(T) obj2Json, T Function(dynamic) json2Obj) async {
     var resp = await postUri(uri, list.map((e) => obj2Json(e)).toList());
     if (resp.hasError) {
       return Future.error('(${resp.statusCode ?? '_'}) ${resp.statusText!}');
@@ -176,8 +167,7 @@ class Api extends GetConnect {
     return (resp.body as Iterable).map<T>((e) => json2Obj(e)).toList();
   }
 
-  Future<List<T>?> getList<T>(String uri, T Function(dynamic) json2Obj,
-      {Map<String, dynamic>? query}) async {
+  Future<List<T>?> getList<T>(String uri, T Function(dynamic) json2Obj, {Map<String, dynamic>? query}) async {
     var resp = await getUri(uri, query: query);
     if (resp.hasError) {
       return Future.error('(${resp.statusCode ?? '_'}) ${resp.statusText!}');
@@ -186,8 +176,7 @@ class Api extends GetConnect {
     return (resp.body as Iterable).map<T>((e) => json2Obj(e)).toList();
   }
 
-  Future<T?> getData<T>(String uri, T Function(dynamic)? json2Obj,
-      {Map<String, dynamic>? query}) async {
+  Future<T?> getData<T>(String uri, T Function(dynamic)? json2Obj, {Map<String, dynamic>? query}) async {
     var resp = await getUri(uri, query: query);
     if (resp.hasError) {
       return Future.error('(${resp.statusCode ?? '-'}) ${resp.statusText!}');
@@ -204,9 +193,7 @@ class Api extends GetConnect {
         'username': userId,
         'password': userPwd,
       },
-    )
-        .timeout(const Duration(seconds: timeoutSeconds))
-        .onError((error, stackTrace) {
+    ).timeout(const Duration(seconds: timeoutSeconds)).onError((error, stackTrace) {
       throw error!;
     });
 
@@ -219,8 +206,7 @@ class Api extends GetConnect {
     }
   }
 
-  Future<UserModel?> signUp(
-      String fullName, String userId, String password) async {
+  Future<UserModel?> signUp(String fullName, String userId, String password) async {
     var resp = await post(
       '$serverUrl$uriLogin?devicesn=EMULATOR30X1X2X2',
       // '$url/collector/v1/login?devicesn=EMULATOR30X1X2X2',
@@ -228,9 +214,7 @@ class Api extends GetConnect {
         'username': userId,
         'password': password,
       },
-    )
-        .timeout(const Duration(seconds: timeoutSeconds))
-        .onError((error, stackTrace) {
+    ).timeout(const Duration(seconds: timeoutSeconds)).onError((error, stackTrace) {
       throw error!;
     });
 

@@ -16,7 +16,16 @@ $ flutter create --org com.yourpackage -a java quickstart_getx
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Create file `.env` in root folder, contain following information:
+
+```
+TOKEN=abc123
+```
+
+edit `.gitignore` to ignore `.env` commits
+
+
+
 
 A few resources to get you started if this is your first Flutter project:
 
