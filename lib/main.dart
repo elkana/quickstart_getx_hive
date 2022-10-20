@@ -11,6 +11,7 @@ import 'pages/login/signup/signup_view.dart';
 import 'routes/app_routes.dart';
 import 'utils/hive_util.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'providers/api.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => GetMaterialApp(
           home: const SplashView(),
           initialBinding: BindingsBuilder(() {
+            Get.put(Api());
             Get.put(AuthController());
           }),
           onInit: () async {
