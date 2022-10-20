@@ -2,6 +2,12 @@
 
 A new Flutter project.
 
+```
+$ flutter create --org com.eric -a java quickstart_getx_hive
+
+$ flutter build apk --release
+```
+
 JUMPSTART from https://github.com/elkana/quickstart_getx
 
 ## Getting Started
