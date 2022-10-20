@@ -6,10 +6,10 @@ import 'package:dio/dio.dart' as dioLib;
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:quickstart_getx_hive/models/user_model.dart';
-import 'package:quickstart_getx_hive/utils/commons.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../models/user_model.dart';
+import '../utils/commons.dart';
 import '../utils/net_util.dart';
 import '../utils/screen_util.dart';
 

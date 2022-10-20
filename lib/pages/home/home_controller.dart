@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
-import '../controllers/auth_controller.dart';
-import '../routes/app_routes.dart';
-import '../utils/screen_util.dart';
+import '../../controllers/auth_controller.dart';
+import '../../routes/app_routes.dart';
+import '../../utils/screen_util.dart';
 
 class HomeController extends GetxController {
   static HomeController instance = Get.find();

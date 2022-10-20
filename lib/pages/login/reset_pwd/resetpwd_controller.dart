@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../utils/screen_util.dart';
+import '../../../utils/screen_util.dart';
 
 class ResetPwdController extends GetxController {
   final formKey = GlobalKey<FormState>();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../widgets/common.dart';
+import '../../widgets/common.dart';
 import 'dashboard/dashboard_controller.dart';
 import 'dashboard/dashboard_view.dart';
 import 'history/history_controller.dart';

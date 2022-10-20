@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/auth_controller.dart';
-import '../controllers/pref_controller.dart';
-import '../models/user_model.dart';
-import '../utils/screen_util.dart';
+
+import '../../controllers/auth_controller.dart';
+import '../../controllers/pref_controller.dart';
+import '../../models/user_model.dart';
+import '../../utils/screen_util.dart';
 
 class LoginController extends GetxController {
   static LoginController instance = Get.find();
@@ -19,8 +20,7 @@ class LoginController extends GetxController {
     super.onReady();
     if (PrefController.instance.getLoggedUser() != null) {
       ctrlUserId.text = PrefController.instance.getLoggedUser()!.userId ?? '';
-      ctrlPwd.text =
-          PrefController.instance.getLoggedUser()!.userPassword ?? '';
+      ctrlPwd.text = PrefController.instance.getLoggedUser()!.userPassword ?? '';
       rememberPwd(true);
     }
   }
@@ -47,8 +47,7 @@ class LoginController extends GetxController {
       UserModel? user = await AuthController.instance
           .loginWithEmail(ctrlUserId.text, ctrlPwd.text, rememberPwd.value)
           .onError((error, stackTrace) {
-        ScreenUtil.showToast(error.toString(),
-            error: true, title: 'Login Failed');
+        ScreenUtil.showToast(error.toString(), error: true, title: 'Login Failed');
         return null;
       });
 

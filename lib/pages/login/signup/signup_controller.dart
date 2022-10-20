@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quickstart_getx_hive/controllers/auth_controller.dart';
 
-import '../../models/user_model.dart';
-import '../../utils/screen_util.dart';
+import '../../../controllers/auth_controller.dart';
+import '../../../models/user_model.dart';
+import '../../../utils/screen_util.dart';
 
 class SignUpController extends GetxController {
   final formKey = GlobalKey<FormState>();
-  late TextEditingController ctrlFullname,
-      ctrlUserId,
-      ctrlNewPwd,
-      ctrlConfirmPwd;
+  late TextEditingController ctrlFullname, ctrlUserId, ctrlNewPwd, ctrlConfirmPwd;
   var obscurePwdNew = true.obs;
   var obscurePwdConfirm = true.obs;
   var rememberPwd = false.obs;
@@ -66,8 +63,7 @@ class SignUpController extends GetxController {
 
     try {
       UserModel? resp = await AuthController.instance
-          .createUserWithEmailAndPassword(ctrlFullname.text.trim(),
-              ctrlUserId.text.trim(), ctrlNewPwd.text.trim());
+          .createUserWithEmailAndPassword(ctrlFullname.text.trim(), ctrlUserId.text.trim(), ctrlNewPwd.text.trim());
       if (resp == null) return;
     } catch (e, s) {
       ScreenUtil.showError(e, stacktrace: s);
