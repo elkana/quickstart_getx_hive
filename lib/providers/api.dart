@@ -119,13 +119,9 @@ class Api extends GetConnect {
     }
 
     var dio = _initDio();
-
     log('downloadPhoto.Api => $serverUrl$uri');
-
     Uri? _uri = Uri.tryParse('$serverUrl$uri');
-
     var resp = await dio.getUri<List<int>>(_uri!, options: dioLib.Options(responseType: dioLib.ResponseType.bytes));
-
     if (kIsWeb) {
       //
     } else {
@@ -202,13 +198,13 @@ class Api extends GetConnect {
       return Future.error('(${resp.statusCode ?? '_'}) ${resp.statusText!}');
     } else {
       // TODO you must test if json able to decode here
-      return UserModel.fromJson(resp.body);
+      return UserModel.fromMap(resp.body);
     }
   }
 
   Future<UserModel?> signUp(String fullName, String userId, String password) async {
     var resp = await post(
-      '$serverUrl$uriLogin?devicesn=EMULATOR30X1X2X2',
+      '$serverUrl/v1/signup?devicesn=EMULATOR30X1X2X2',
       // '$url/collector/v1/login?devicesn=EMULATOR30X1X2X2',
       <String, dynamic>{
         'username': userId,
@@ -223,7 +219,7 @@ class Api extends GetConnect {
       return Future.error('(${resp.statusCode ?? '_'}) ${resp.statusText!}');
     } else {
       // TODO you must test if json able to decode here
-      return UserModel.fromJson(resp.body);
+      return UserModel.fromMap(resp.body);
     }
   }
 }

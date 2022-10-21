@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'configs/locales.dart';
 import 'controllers/auth_controller.dart';
@@ -8,10 +10,9 @@ import 'pages/home/home_view.dart';
 import 'pages/login/login_view.dart';
 import 'pages/login/reset_pwd/resetpwd_view.dart';
 import 'pages/login/signup/signup_view.dart';
+import 'providers/api.dart';
 import 'routes/app_routes.dart';
 import 'utils/hive_util.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'providers/api.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -26,11 +27,12 @@ class MyApp extends StatelessWidget {
           home: const SplashView(),
           initialBinding: BindingsBuilder(() {
             Get.put(Api());
-            Get.put(AuthController());
+            Get.lazyPut<AuthController>(() => AuthController());
+            Get.lazyPut<PrefController>(() => PrefController());
           }),
           onInit: () async {
             await HiveUtil.registerAdaptersFirstTime();
-            await Get.put(PrefController()).initStorage();
+            await GetStorage.init();
           },
           theme: ThemeData.dark(),
           locale: const Locale('en', 'US'),

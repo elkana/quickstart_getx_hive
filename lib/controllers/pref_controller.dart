@@ -7,7 +7,6 @@ class PrefController extends GetxController {
   static PrefController instance = Get.find();
   final box = GetStorage();
 
-  Future initStorage() => GetStorage.init();
   Future cleanLoggedUserData() async {
     // dont use box.erase. key servers must not be deleted
     await box.remove('auth');
