@@ -50,7 +50,7 @@ class AuthController extends GetxController {
     } catch (e, s) {
       ScreenUtil.showError(e, stacktrace: s);
     } finally {
-      user(null);
+      user.value = null; // tidak boleh user(null) nanti ever ga ketrigger
     }
   }
 
