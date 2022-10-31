@@ -18,9 +18,9 @@ class AuthController extends GetxController {
     ever<UserModel?>(user, (_) {
       print('ever-> $_');
       if (_ == null) {
-        Get.offAllNamed(Routes.LOGIN);
+        Get.offAllNamed(Routes.login);
       } else {
-        Get.offAllNamed(Routes.HOME);
+        Get.offAllNamed(Routes.home);
       }
     });
   }
@@ -28,8 +28,7 @@ class AuthController extends GetxController {
   /// tidak mengatur reroute disini, hanya authentication secara online.
   ///
   /// login offline tidak diperlukan diatur di class ini karena sudah diatur di LoginController.
-  Future<UserModel?> loginWithEmail(
-      String userId, String pwd, bool rememberMe) async {
+  Future<UserModel?> loginWithEmail(String userId, String pwd, bool rememberMe) async {
     var userModel = await Api.instance.login(userId, pwd);
     userModel?.rememberMe = rememberMe;
     // Optional inject password, because server might hide it
@@ -48,14 +47,14 @@ class AuthController extends GetxController {
           await PrefController.instance.cleanLoggedUserData();
         }
       }
-      user.value = null;
     } catch (e, s) {
       ScreenUtil.showError(e, stacktrace: s);
+    } finally {
+      user(null);
     }
   }
 
-  Future<UserModel?> createUserWithEmailAndPassword(
-      String fullName, String userId, String password) async {
+  Future<UserModel?> createUserWithEmailAndPassword(String fullName, String userId, String password) async {
     var newUsr = await Api.instance.signUp(fullName, userId, password);
     PrefController.instance.setLoggedUser(newUsr);
     user.value = newUsr;

@@ -16,7 +16,7 @@ class HomeController extends GetxController {
 
   Future<void> logout() async {
     await AuthController.instance.logout();
-    Get.offAllNamed(Routes.LOGIN);
+    Get.offAllNamed(Routes.login);
   }
 
   Future<bool> willPopScope() async {

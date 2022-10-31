@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
-
-class PaddingAll extends StatelessWidget {
-  final double gap;
-  final Widget? child;
-  const PaddingAll({Key? key, this.child, this.gap = 8}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Padding(child: child, padding: EdgeInsets.all(gap));
-}
+import 'package:velocity_x/velocity_x.dart';
 
 class GapHorizontal extends StatelessWidget {
   const GapHorizontal({Key? key}) : super(key: key);
@@ -21,4 +13,19 @@ class GapVertical extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SizedBox(height: 20);
+}
+
+class MyButton extends StatelessWidget {
+  final String label;
+  final VoidCallback? onTap;
+  const MyButton(this.label, {Key? key, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Material(
+          child:
+              MaterialButton(child: label.text.white.make(), onPressed: onTap, minWidth: double.infinity, height: 42.0),
+          borderRadius: BorderRadius.circular(10.0),
+          elevation: 5.0,
+          color: Colors.purple)
+      .py16();
 }
