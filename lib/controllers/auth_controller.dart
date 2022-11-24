@@ -33,7 +33,7 @@ class AuthController extends GetxController {
     userModel?.rememberMe = rememberMe;
     // Optional inject password, because server might hide it
     userModel?.userPassword = pwd;
-    PrefController.instance.setLoggedUser(userModel);
+    await PrefController.instance.setLoggedUser(userModel);
     user.value = userModel;
     return userModel;
   }
@@ -56,7 +56,7 @@ class AuthController extends GetxController {
 
   Future<UserModel?> createUserWithEmailAndPassword(String fullName, String userId, String password) async {
     var newUsr = await Api.instance.signUp(fullName, userId, password);
-    PrefController.instance.setLoggedUser(newUsr);
+    await PrefController.instance.setLoggedUser(newUsr);
     user.value = newUsr;
     return newUsr;
   }
