@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           home: const SplashView(),
           initialBinding: BindingsBuilder(() {
             Get.put(Api());
-            Get.lazyPut<AuthController>(() => AuthController());
+            Get.put(AuthController());         
             Get.lazyPut<PrefController>(() => PrefController());
           }),
           onInit: () async {
