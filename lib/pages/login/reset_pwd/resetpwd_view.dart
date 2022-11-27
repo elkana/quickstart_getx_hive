@@ -18,16 +18,11 @@ class ResetPwdView extends GetView<ResetPwdController> {
       body: Form(
               child: [
                 // email
-                TextFormField(
+                // email
+                MyTextFormField('Email',
                     controller: controller.ctrlUserId,
-                    textAlign: TextAlign.center,
                     validator: (val) => controller.validateUserId(val!),
-                    onSaved: (val) => controller.ctrlUserId.text = val!,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                    decoration: const InputDecoration(
-                        labelText: 'Email',
-                        suffixIcon: SizedBox(),
-                        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0))),
+                    onSaved: (val) => controller.ctrlUserId.text = val!),
                 const Text('A reset link will be sent to your email'),
                 //button login
                 Obx(() => controller.loading.isTrue

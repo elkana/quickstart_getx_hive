@@ -27,46 +27,34 @@ class LoginView extends GetView<LoginController> {
       body: Form(
               child: [
                 'Hello !'.text.xl3.bold.make().marginOnly(bottom: 20),
-                const SizedBox(height: 20),
                 // email
-                TextFormField(
+                MyTextFormField('Email',
                     controller: controller.ctrlUserId,
-                    textAlign: TextAlign.center,
                     validator: (val) => controller.validateUserId(val!),
-                    onSaved: (val) => controller.ctrlUserId.text = val!,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                    autofocus: false,
-                    decoration: const InputDecoration(
-                        labelText: 'ID',
-                        suffixIcon: SizedBox(),
-                        contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0))),
+                    onSaved: (val) => controller.ctrlUserId.text = val!),
                 //password
-                Obx(() => TextFormField(
-                    controller: controller.ctrlPwd,
-                    textAlign: TextAlign.center,
-                    validator: (val) => controller.validatePassword(val!),
-                    onSaved: (val) => controller.ctrlPwd.text = val!,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                        labelText: 'Password',
-                        suffixIcon: IconButton(
-                            icon: Icon(controller.obscurePwd.isTrue
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined),
-                            onPressed: () => controller.obscurePwd.toggle()),
-                        contentPadding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0)),
-                    obscureText: controller.obscurePwd.value)),
+                Obx(() => MyTextFormField(
+                      'Password',
+                      controller: controller.ctrlPwd,
+                      validator: (val) => controller.validatePassword(val!),
+                      onSaved: (val) => controller.ctrlPwd.text = val!,
+                      obscureText: controller.obscurePwd.value,
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              controller.obscurePwd.isTrue ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                          onPressed: () => controller.obscurePwd.toggle()),
+                    )),
                 // toggle rememberme
-                Row(children: [
+                [
                   TextButton.icon(
-                      onPressed: controller.rememberPwd.toggle,
-                      icon: Obx(() => Switch(
-                          value: controller.rememberPwd.value, onChanged: (val) => controller.rememberPwd.toggle())),
-                      label: Text(LocaleKeys.buttons_rememberme.tr, style: const TextStyle(fontSize: 11))),
+                    label: LocaleKeys.buttons_rememberme.tr.text.sm.make(),
+                    onPressed: controller.rememberPwd.toggle,
+                    icon: Obx(() => Switch(
+                        value: controller.rememberPwd.value, onChanged: (val) => controller.rememberPwd.toggle())),
+                  ),
                   const Spacer(),
                   TextButton(child: 'Forgot Password'.text.sm.make(), onPressed: () => Get.toNamed(Routes.resetPwd))
-                ]),
-                const SizedBox(height: 10.0),
+                ].row(axisSize: MainAxisSize.max),
                 //button login
                 Obx(() => controller.loading.isTrue
                     ? const CircularProgressIndicator()
