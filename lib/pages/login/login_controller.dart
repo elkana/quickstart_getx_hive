@@ -52,6 +52,11 @@ class LoginController extends GetxController {
       });
 
       if (user == null) return;
+      
+      // TODO add any validation here
+      
+      //finally
+      AuthController.instance.user.value = user;
     } catch (e, s) {
       ScreenUtil.showError(e, stacktrace: s);
     } finally {
