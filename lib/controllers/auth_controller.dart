@@ -34,7 +34,8 @@ class AuthController extends GetxController {
     // Optional inject password, because server might hide it
     userModel?.userPassword = pwd;
     await PrefController.instance.setLoggedUser(userModel);
-    user.value = userModel;
+    // TODO because you cant put user.value here, login screen might have another validation
+    // user.value = userModel;
     return userModel;
   }
 
